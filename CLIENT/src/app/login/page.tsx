@@ -22,7 +22,7 @@ function LoginPage() {
     setError("")
 
     try {
-      const response = await fetch("http://localhost:8000/user/login", {
+      const response = await fetch("http://localhost:8000/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -30,15 +30,13 @@ function LoginPage() {
         body: JSON.stringify({
           email: email,
           password: password,
-          role: "USER"
+          
         }),
       })
 
       const data = await response.json()
-
-      if (response.ok) {
-        // Save the token and redirect to the dashboard or home page
-        localStorage.setItem("token", data.token)
+      
+      if (response.ok) {       
         router.push("/dashboard")
       } else {
         setError(data.error || "An error occurred")
