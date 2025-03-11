@@ -8,6 +8,7 @@ import userData from './routes/userDataRoute.js'
 import Logout from './routes/logoutRoute.js'
 
 const app=express();
+import AcadTrends from './routes/AcadTrends.js'
 
 
 app.use(express.json());
@@ -26,6 +27,11 @@ app.use('/',userLogin);
 app.use('/',userSignup);
 app.use('/',userData);
 app.use('/',Logout);
+app.use('/',AcadTrends);
+
+
+
+
 
 
 
