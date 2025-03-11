@@ -117,7 +117,8 @@ async function fetchSkillTrendsFromGemini(skills) {
 
 export const storeSkills =async (req,res)=>{
     try {
-        const { userId, skills } = req.body;
+        const {  skills } = req.body;
+        const userId=await req.userId;
         
         
         if (!userId || !skills || !Array.isArray(skills) || skills.length === 0) {
