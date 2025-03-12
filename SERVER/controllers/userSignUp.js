@@ -1,9 +1,8 @@
 import { User } from "../Models/UserModel.js";
 import jwt from 'jsonwebtoken'
 
-export const SignupFunc =async ()=>{
-
-try {
+export const SignupFunc =async (req,res)=>{
+  try {
     const { fullName, email, password } = req.body;
     if (!fullName || !email || !password) {
       return res.status(400).json({ message: "Missing required fields" });
@@ -25,14 +24,14 @@ try {
     const token = jwt.sign(
       { userId: newUser._id },
       process.env.JWT_SECRET || 'your-secret-key',
-      { expiresIn: '30d' }
+      { expiresIn: '7d' }
     );
 
     res.cookie('yourAuthCookie', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      maxAge: 30 * 24 * 60 * 60 * 1000 
+      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     });
 
     return res.status(201).json({ 
