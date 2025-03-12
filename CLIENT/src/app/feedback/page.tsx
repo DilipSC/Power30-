@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 import { Badge } from "@/components/ui/badge"
 
 // Define constants for form options
@@ -106,10 +106,7 @@ export default function Feedback() {
 
   // Handle form submission
   function onSubmit(data: FormValues) {
-    toast({
-      title: "Thank you for your feedback! 🎉",
-      description: "Your responses have been submitted successfully.",
-    })
+    toast("Thank you for your feedback! 🎉")
     console.log(data)
   }
 
