@@ -6,7 +6,7 @@ import userLogin from './routes/loginRoute.js'
 import userSignup from './routes/singupRoute.js'
 import userData from './routes/userDataRoute.js'
 import Logout from './routes/logoutRoute.js'
-
+import FeedBack from './routes/feedback.js'
 const app=express();
 import AcadTrends from './routes/AcadTrends.js'
 
@@ -28,6 +28,7 @@ app.use('/',userSignup);
 app.use('/',userData);
 app.use('/',Logout);
 app.use('/',AcadTrends);
+app.use('/',FeedBack);
 
 
 

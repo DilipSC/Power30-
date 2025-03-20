@@ -105,9 +105,17 @@ export default function Feedback() {
   })
 
   // Handle form submission
-  function onSubmit(data: FormValues) {
+  async function onSubmit(data: FormValues) {
     toast("Thank you for your feedback! 🎉")
-    console.log(data)
+    console.log(data);
+    const response = await fetch("http://localhost:8000/api/feedback", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+    console.log(response)
   }
 
   // Filter topics based on search input
