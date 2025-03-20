@@ -104,7 +104,7 @@ export default function Feedback() {
     },
   })
 
-  // Handle form submission
+  
   async function onSubmit(data: FormValues) {
     toast("Thank you for your feedback! 🎉")
     console.log(data);
@@ -114,8 +114,8 @@ export default function Feedback() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-    })
-    console.log(response)
+    });
+    console.log(response);
   }
 
   // Filter topics based on search input
