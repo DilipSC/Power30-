@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import {
   BarChart3,BookOpen,Calendar,LogOut,MessageSquare,Pencil,Settings,Target,Trophy,User,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import {
   Dialog,
   DialogContent,
@@ -93,7 +94,12 @@ const Index = () => {
     // Show success message
     toast.success("Profile updated successfully");
   };
-
+  const router = useRouter();
+  const handleLogout = () => {
+   
+    localStorage.removeItem("token"); 
+    router.push("/login");
+  };
   return (
     <div className="min-h-screen bg-[#f8fafc]">
       {/* Navigation Bar */}
@@ -112,7 +118,7 @@ const Index = () => {
               <User className="h-4 w-4" />
               <span>Edit Profile</span>
             </Button>
-            <Button variant="ghost" size="sm" className="gap-2">
+            <Button variant="ghost" size="sm" className="gap-2" onClick={handleLogout}>
               <LogOut className="h-4 w-4" />
               <span>Logout</span>
             </Button>
