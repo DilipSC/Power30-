@@ -106,7 +106,7 @@ function LoginPage() {
             </Button>
             <div className="text-center text-sm">
               Don't have an account?{" "}
-              <a href="/register" className="font-medium text-primary hover:underline">
+              <a href="/signup" className="font-medium text-primary hover:underline">
                 Create an account
               </a>
             </div>
@@ -118,11 +118,3 @@ function LoginPage() {
 }
 
 export default LoginPage
-
-
-
-
-
-
-
-

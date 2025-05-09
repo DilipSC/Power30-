@@ -99,10 +99,8 @@ export default function SignupPage() {
       })
 
       if (response.ok) {
-        // Handle successful signup
         setIsSuccess(true)
 
-        // Reset form after successful submission
         setFormData({
           fullName: "",
           email: "",
