@@ -4,34 +4,28 @@ import {Feedback} from '../Models/feedback.js';
 import {User} from '../Models/UserModel.js';
 import { authenticateToken } from '../middleware/authtoken.js';
 
-
 const router = express.Router();
 
-
-
-
-router.post('/api/feedback', authenticateToken,async (req, res) => {
+router.post('/api/feedback', authenticateToken, async (req, res) => {
   try {
-    const userId=req.userId
-    
-    const existingUser = await User.findOne({_id: userId});
+    const userId = req.userId; // Extracted from the token by authenticateToken middleware
+
+    const existingUser = await User.findOne({ _id: userId });
     if (existingUser && existingUser.hasSubmittedFeedback) {
       return res.status(400).json({ 
         success: false, 
         message: 'You have already submitted feedback' 
       });
     }
-    
-    
+
     const feedbackData = {
       userId,
       ...req.body
     };
-    
+
     const newFeedback = new Feedback(feedbackData);
     await newFeedback.save();
-    
-    
+
     if (existingUser) {
       existingUser.hasSubmittedFeedback = true;
       await existingUser.save();
@@ -50,7 +44,6 @@ router.post('/api/feedback', authenticateToken,async (req, res) => {
     });
   }
 });
-
 
 router.get('/api/getfeedback',authenticateToken, async (req, res) => {
   try {

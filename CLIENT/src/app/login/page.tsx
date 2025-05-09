@@ -27,10 +27,10 @@ function LoginPage() {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include", // Ensures cookies are sent with the request
         body: JSON.stringify({
           email: email,
           password: password,
-          
         }),
       })
 

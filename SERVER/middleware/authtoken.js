@@ -1,7 +1,7 @@
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
 
 export const authenticateToken = async (req, res, next) => {
-  const token = req.cookies.yourAuthCookie;
+  const token = req.cookies?.yourAuthCookie || req.headers['authorization']?.split(' ')[1];
 
   if (!token) {
     return res.status(401).json({ message: "No token provided" });

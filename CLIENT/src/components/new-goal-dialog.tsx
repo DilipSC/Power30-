@@ -30,7 +30,7 @@ interface NewGoalDialogProps {
   onShowTemplates: () => void
 }
 
-export default function NewGoalDialog({ open, onOpenChange, onSave, onShowTemplates }: NewGoalDialogProps) {
+export function NewGoalDialog({ open, onOpenChange, onSave, onShowTemplates }: NewGoalDialogProps) {
   const [formData, setFormData] = useState<Partial<Goal>>({
     title: "",
     description: "",

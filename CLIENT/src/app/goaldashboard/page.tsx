@@ -1,14 +1,20 @@
 "use client"
 
 import { useState } from "react"
-import { PlusCircle, User, Menu } from "lucide-react"
+import { PlusCircle } from "lucide-react"
 
-import GoalCard from "@/components/goal-card"
-import NewGoalDialog from "@/components/new-goal-dialog"
-import GoalTemplates from "@/components/goal-templates"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { SidebarProvider } from "@/components/ui/sidebar"
+import { DashboardSidebar } from "@/components/dashboard-sidebar"
+import { DashboardHeader } from "@/components/dashboard-header"
+import { GoalGrid } from "@/components/goal-grid"
+import { GoalSummary } from "@/components/goal-summary"
+import { NewGoalDialog } from "@/components/new-goal-dialog"
+import { GoalTemplates } from "@/components/goal-templates"
 import type { Goal, Milestone } from "@/lib/types"
+
 export default function GoalDashboard() {
   const [goals, setGoals] = useState<Goal[]>([
     {
@@ -48,6 +54,7 @@ export default function GoalDashboard() {
 
   const [isNewGoalDialogOpen, setIsNewGoalDialogOpen] = useState(false)
   const [showTemplates, setShowTemplates] = useState(false)
+  const [filter, setFilter] = useState<string>("all")
 
   const addGoal = (goal: Goal) => {
     setGoals([...goals, goal])
@@ -97,61 +104,121 @@ export default function GoalDashboard() {
     setGoals(updatedGoals)
   }
 
+  const filteredGoals =
+    filter === "all" ? goals : goals.filter((goal) => goal.category === filter || goal.priority === filter)
+
+  const categories = Array.from(new Set(goals.map((goal) => goal.category)))
+  const priorities = Array.from(new Set(goals.map((goal) => goal.priority)))
+
   return (
-    <div className="flex flex-col h-screen">
-      <header className="border-b p-4 flex justify-between items-center bg-white">
-        <Button variant="ghost" size="icon">
-          <Menu className="h-6 w-6" />
-          <span className="sr-only">Menu</span>
-        </Button>
-        <h1 className="text-xl font-semibold text-center">Student Goals</h1>
-        <Button variant="ghost" size="icon" className="rounded-full">
-          <User className="h-6 w-6" />
-          <span className="sr-only">Profile</span>
-        </Button>
-      </header>
+    <SidebarProvider>
+      <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
+        <DashboardSidebar />
 
-      <div className="p-4 md:p-6 flex-1">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">My Goals</h2>
-          <Button onClick={() => setIsNewGoalDialogOpen(true)} className="bg-green-500 hover:bg-green-600 text-white">
-            <PlusCircle className="mr-2 h-5 w-5" />
-            New Goal
-          </Button>
+        <div className="flex-1 flex flex-col">
+          <DashboardHeader />
+
+          <main className="flex-1 overflow-auto p-6">
+            <div className="max-w-7xl mx-auto space-y-6">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <h1 className="text-2xl font-bold tracking-tight">Goal Dashboard</h1>
+                <div className="flex items-center gap-2">
+                  <Button
+                    onClick={() => setIsNewGoalDialogOpen(true)}
+                    className="bg-green-600 hover:bg-green-700 text-white"
+                  >
+                    <PlusCircle className="mr-2 h-4 w-4" />
+                    New Goal
+                  </Button>
+                </div>
+              </div>
+
+              <GoalSummary goals={goals} />
+
+              <Tabs defaultValue="all" className="w-full">
+                <div className="flex justify-between items-center mb-4">
+                  <TabsList>
+                    <TabsTrigger value="all" onClick={() => setFilter("all")}>
+                      All Goals
+                    </TabsTrigger>
+                    <TabsTrigger value="academic" onClick={() => setFilter("Academic")}>
+                      Academic
+                    </TabsTrigger>
+                    <TabsTrigger value="career" onClick={() => setFilter("Career")}>
+                      Career
+                    </TabsTrigger>
+                    <TabsTrigger value="high" onClick={() => setFilter("High")}>
+                      High Priority
+                    </TabsTrigger>
+                  </TabsList>
+                </div>
+
+                <TabsContent value="all" className="mt-0">
+                  <ScrollArea className="h-[calc(100vh-350px)]">
+                    <GoalGrid
+                      goals={filteredGoals}
+                      onUpdate={updateGoal}
+                      onDelete={deleteGoal}
+                      onToggleMilestone={toggleMilestoneStatus}
+                      onAddMilestone={addMilestone}
+                    />
+                  </ScrollArea>
+                </TabsContent>
+
+                <TabsContent value="academic" className="mt-0">
+                  <ScrollArea className="h-[calc(100vh-350px)]">
+                    <GoalGrid
+                      goals={filteredGoals}
+                      onUpdate={updateGoal}
+                      onDelete={deleteGoal}
+                      onToggleMilestone={toggleMilestoneStatus}
+                      onAddMilestone={addMilestone}
+                    />
+                  </ScrollArea>
+                </TabsContent>
+
+                <TabsContent value="career" className="mt-0">
+                  <ScrollArea className="h-[calc(100vh-350px)]">
+                    <GoalGrid
+                      goals={filteredGoals}
+                      onUpdate={updateGoal}
+                      onDelete={deleteGoal}
+                      onToggleMilestone={toggleMilestoneStatus}
+                      onAddMilestone={addMilestone}
+                    />
+                  </ScrollArea>
+                </TabsContent>
+
+                <TabsContent value="high" className="mt-0">
+                  <ScrollArea className="h-[calc(100vh-350px)]">
+                    <GoalGrid
+                      goals={filteredGoals}
+                      onUpdate={updateGoal}
+                      onDelete={deleteGoal}
+                      onToggleMilestone={toggleMilestoneStatus}
+                      onAddMilestone={addMilestone}
+                    />
+                  </ScrollArea>
+                </TabsContent>
+              </Tabs>
+            </div>
+          </main>
         </div>
-
-        {showTemplates && (
-          <div className="mb-6">
-            <GoalTemplates onSelectTemplate={(template) => addGoal(template)} />
-          </div>
-        )}
-
-        <ScrollArea className="h-[calc(100vh-200px)]">
-          <div className="space-y-4">
-            {goals.map((goal) => (
-              <GoalCard
-                key={goal.id}
-                goal={goal}
-                onUpdate={updateGoal}
-                onDelete={deleteGoal}
-                onToggleMilestone={toggleMilestoneStatus}
-                onAddMilestone={addMilestone}
-              />
-            ))}
-          </div>
-        </ScrollArea>
-
-        <NewGoalDialog
-          open={isNewGoalDialogOpen}
-          onOpenChange={setIsNewGoalDialogOpen}
-          onSave={addGoal}
-          onShowTemplates={() => {
-            setShowTemplates(true)
-            setIsNewGoalDialogOpen(false)
-          }}
-        />
       </div>
-    </div>
+
+      <NewGoalDialog
+        open={isNewGoalDialogOpen}
+        onOpenChange={setIsNewGoalDialogOpen}
+        onSave={addGoal}
+        onShowTemplates={() => {
+          setShowTemplates(true)
+          setIsNewGoalDialogOpen(false)
+        }}
+      />
+
+      {showTemplates && (
+        <GoalTemplates onSelectTemplate={(template) => addGoal(template)} onClose={() => setShowTemplates(false)} />
+      )}
+    </SidebarProvider>
   )
 }
-

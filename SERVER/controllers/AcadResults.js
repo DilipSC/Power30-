@@ -5,12 +5,12 @@ import { User } from '../Models/UserModel.js';
 import { Trend } from '../Models/Trends.js';
 
 
-const genAI = new GoogleGenerativeAI('api key baad mei daal dunga chinta na karooo');
+const genAI = new GoogleGenerativeAI('AIzaSyCfGHEhOf1KTTE3oQwp9LGIpH-N4O9r_Kg');
 
 async function fetchSkillTrendsFromGemini(skills) {
     try {
     
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+      const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
       
    
       const prompt = `

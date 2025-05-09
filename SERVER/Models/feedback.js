@@ -17,21 +17,13 @@ const feedbackSchema = new mongoose.Schema({
       enum: ['easy', 'moderate', 'hard']
     }
   },
-  learningStyles: [{
-    type: String,
-    enum: ['lecture', 'visual', 'practical', 'group', 'realworld']
-  }],
-  difficultTopics: [{
-    type: String
-  }],
+  learningStyles: [String],
+  difficultTopics: [String],
   teachingImprovement: {
     type: String,
     required: true
   },
-  studyResources: [{
-    type: String,
-    enum: ['video', 'practice', 'ebooks', 'interactive', 'quizzes']
-  }],
+  studyResources: [String],
   additionalResources: {
     type: String
   },

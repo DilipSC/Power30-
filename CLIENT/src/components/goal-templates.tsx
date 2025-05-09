@@ -9,7 +9,7 @@ interface GoalTemplatesProps {
   onSelectTemplate: (template: Goal) => void
 }
 
-export default function GoalTemplates({ onSelectTemplate }: GoalTemplatesProps) {
+export function GoalTemplates({ onSelectTemplate }: GoalTemplatesProps) {
   const templates: Goal[] = [
     {
       id: "template1",
