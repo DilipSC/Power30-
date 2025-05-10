@@ -1,5 +1,3 @@
-import jwt from 'jsonwebtoken';
-
 export const authenticateToken = async (req, res, next) => {
   const token = req.cookies?.yourAuthCookie || req.headers['authorization']?.split(' ')[1];
 

@@ -17,6 +17,10 @@ import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
+import EditProfileModal from "@/components/edit-profile-modal";
+import Navbar from "@/components/navbar";
+
+
 
 // Define constants for form options
 const subjects = ["Mathematics", "Physics", "Chemistry", "Biology", "Computer Science", "English Literature"] as const
@@ -103,7 +107,36 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>
 
 export default function Feedback() {
+  interface ProfileFormValues {
+  name: string;
+  email: string;
+  phone: string;
+  branch: string;
+  semester: string;
+  section: string;
+}
+const [profile, setProfile] = useState<ProfileFormValues>({
+  name: "Student Name",
+  email: "example@example.com",
+  phone: "+91 9123456789",
+  branch: "Computer Science",
+  semester: "4th",
+  section: "CS-B",
+});
+
+const [isModalOpen, setIsModalOpen] = useState(false);
+
+const handleEditProfile = () => {
+  setIsModalOpen(true);
+};
+
+const handleSaveProfile = (updatedProfile: ProfileFormValues) => {
+  setProfile(updatedProfile);
+  setIsModalOpen(false);
+};
+
   // State for topic search and selection
+
   const [topicSearch, setTopicSearch] = useState("")
   const [selectedTopics, setSelectedTopics] = useState<string[]>([])
   const [currentStep, setCurrentStep] = useState(1)
@@ -775,6 +808,15 @@ export default function Feedback() {
   }
 
   return (
+    <>
+        <Navbar onEditProfile={handleEditProfile} />
+    <EditProfileModal
+      isOpen={isModalOpen}
+      onClose={() => setIsModalOpen(false)}
+      initialProfile={profile}
+      onSave={handleSaveProfile}
+    />
+
     <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="mb-8 text-center">
         <h1 className="text-3xl font-bold mb-2">Educational Experience Feedback</h1>
@@ -827,5 +869,6 @@ export default function Feedback() {
         </form>
       </Form>
     </div>
+    </>
   )
 }
